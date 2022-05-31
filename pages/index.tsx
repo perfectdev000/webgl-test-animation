@@ -53,12 +53,12 @@ const Home: NextPage = () => {
     function init(){
       geometry = new THREE.BufferGeometry()
       
-      for (let t = 0; t<20;t++){
-        const l = 2 + Math.sin(t*Math.PI/10) 
+      for (let t = 0; t<30;t++){
+        const l = 2 + Math.sin(t*Math.PI/15) 
         for ( let i = 0; i < 80; i ++ ) {
           const x = Math.cos(i * Math.PI/40) * l
           const z = Math.sin(i * Math.PI/40) * l        
-          const y = Math.cos(t*Math.PI/10) 
+          const y = Math.cos(t*Math.PI/15) 
           vertices.push( x, y, z )
         }
         geometry.setAttribute( 'position', new THREE.Float32BufferAttribute( vertices, 3 ) );
@@ -80,12 +80,12 @@ const Home: NextPage = () => {
       renderer.render( scene, camera)
       const time = performance.now() * 0.001
 
-      for (let t = 0; t<20;t++){
-        const l = 1.2 + Math.sin(time + t*Math.PI/10) 
+      for (let t = 0; t<30;t++){
+        const l = 1.2 + Math.sin(time + t*Math.PI/15) 
         for ( let i = t*80; i < (t+1)*80; i ++ ) {
           const x = Math.cos(i * Math.PI/40) * l
           const z = Math.sin(i * Math.PI/40) * l        
-          const y = Math.cos(time + t*Math.PI/10)
+          const y = Math.cos(time + t*Math.PI/15)
           torus[t].geometry.attributes.position.array[i*3] = x
           torus[t].geometry.attributes.position.array[i*3+2] = z
           torus[t].geometry.attributes.position.array[i*3+1] = y
@@ -93,8 +93,8 @@ const Home: NextPage = () => {
         
         torus[t].geometry.attributes.position.needsUpdate = true
       }
-      group.rotation.x= time
-      group.rotation.z= time
+      group.rotation.x= time * 0.2
+      group.rotation.z= time * 0.2
       // camera.position.y = Math.sin(time) * 5
       // camera.position.x = Math.sin(time) * 5
     }
