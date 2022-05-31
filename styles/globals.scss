@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Audiowide:wght@100;200;300;400;500;600;700;800;900&display=swap");
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Roboto, Oxygen,-apple-system, BlinkMacSystemFont, Segoe UI, 
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.text-shadow1{
+  text-shadow: 0 0 5px #01145f;
+}
+
+
+.text-light-shadow{
+  font-family: "Audiowide";
+  // animation: neon3 1.5s ease-in-out infinite alternate;
+  // -webkit-animation: neon3 1.5s ease-in-out infinite alternate;
+  // -moz-animation:  neon3 1.5s ease-in-out infinite alternate;
+  // -o-animation: neon3 1.5s ease-in-out infinite alternate;
+  // -ms-animation:  neon3 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon3 {
+  from {
+    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #b6ff00,
+      0 0 70px #b6ff00, 0 0 80px #b6ff00, 0 0 100px #b6ff00, 0 0 150px #b6ff00;
+  }
+  to {
+    text-shadow: 0 0 2px #fff, 0 0 5px #fff, 0 0 7px #fff, 0 0 10px #b6ff00,
+      0 0 35px #b6ff00, 0 0 40px #b6ff00, 0 0 50px #b6ff00, 0 0 75px #b6ff00;
+  }
+}

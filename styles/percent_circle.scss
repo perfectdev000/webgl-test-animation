@@ -1,0 +1,146 @@
+.green, .red, .orange, .blue {
+  margin-top: 15px;
+  width: 155px;
+}
+.green .progress,
+.red .progress,
+.blue .progress,
+.orange .progress {
+  position: relative;
+  border-radius: 50%;
+  width: 155px;
+  height: 155px;
+  transition: all 1s ease;
+}
+.green .progress .inner,
+.red .progress .inner,
+.blue .progress .inner,
+.orange .progress .inner {
+  position: absolute;
+  overflow: hidden;
+  z-index: 2;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  transition: all 1s ease;
+}
+.green .progress .inner .water,
+.red .progress .inner .water,
+.blue .progress .inner .water,
+.orange .progress .inner .water {
+  position: absolute;
+  z-index: 1;
+  width: 200%;
+  height: 200%;
+  left: -50%;
+  border-radius: 40%;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: spin;
+  animation-name: spin;
+  // top: 25%;
+  transition: all 1s ease;
+  -webkit-animation-duration: 10s;
+  animation-duration: 10s;
+}
+.green .progress .inner .glare,
+.red .progress .inner .glare,
+.blue .progress .inner .glare,
+.orange .progress .inner .glare {
+  position: absolute;
+  top: -120%;
+  left: -120%;
+  z-index: 5;
+  width: 200%;
+  height: 200%;
+  transform: rotate(45deg);
+  border-radius: 50%;
+  background-color: rgba(255,255,255,0.15);
+  transition: all 1s ease;
+}
+
+.green .progress .inner .percent,
+.red .progress .inner .percent,
+.blue .progress .inner .percent,
+.orange .progress .inner .percent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 150px;
+  font-size: 36px;
+  transition: all 1s ease;
+}
+
+.green .progress {
+  border: 3px solid #53fc53;
+  box-shadow: 0 0 15px #029502;
+}
+.green .progress .inner .water {
+  background: rgba(83,252,83,0.5);
+  box-shadow: 0 0 20px #03bc03;
+}
+.green .progress .inner .percent {
+  color: #03c603;
+  text-shadow: 0 0 10px #029502;
+}
+
+.orange .progress {
+  border: 3px solid orange;
+  box-shadow: 0 0 15px orange;
+}
+.orange .progress .inner .water {
+  background: rgba(255,165,0,0.5);
+  box-shadow: 0 0 20px rgb(255, 191, 73);
+}
+.orange .progress .inner .percent {
+  color: orange;
+  text-shadow: 0 0 10px orange;
+}
+
+.red .progress {
+  border: 3px solid red;
+  box-shadow: 0 0 15px rgb(175, 2, 2);
+}
+.red .progress .inner .water {
+  background: rgba(187, 9, 0, 0.5);
+  box-shadow: 0 0 20px rgb(250, 87, 87);
+}
+.red .progress .inner .percent {
+  color: red;
+  text-shadow: 0 0 10px red;
+}
+
+.blue .progress {
+  border: 3px solid blue;
+  box-shadow: 0 0 15px rgb(20, 20, 250);
+}
+.blue .progress .inner .water {
+  background: rgba(1, 1, 192, 0.5);
+  box-shadow: 0 0 20px rgb(50, 50, 252);
+}
+.blue .progress .inner .percent {
+  color: blue;
+  text-shadow: 0 0 10px blue;
+}
+
+@-webkit-keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
