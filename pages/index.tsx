@@ -1,37 +1,35 @@
 import React, {useState, useEffect} from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import {isMobile} from 'react-device-detect'
 import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls'
 
 const Home: NextPage = () => {
-  const [webglFlag, setWebglFlag] = useState({'flag':false})
 
   const webGLRender = () => {
-    let camera:any
-    const scene = new THREE.Scene()
-    let container: any;
-    let geometry:any
-    let vertices:any = []
-    let torus:any = []
 
-    container = document.getElementById('webgl-canvas')
+    let container:any = document.getElementById('webgl-canvas')
+    let camera: THREE.PerspectiveCamera
+    let torus:any = []
+    const scene = new THREE.Scene()
+
     const renderer = new THREE.WebGLRenderer({antialias: true, canvas: container, alpha:false})
     renderer.setClearColor('#002233', 1)
     renderer.setSize(container.clientWidth, container.clientHeight)
     renderer.setPixelRatio(window.devicePixelRatio)
-
-    scene.background = new THREE.Color( 0x002233 )
-    scene.fog = new THREE.Fog( 0x0066ff, 2000, 4500 )
 
     const viewport = {
       width : container.clientWidth,
       height : container.clientHeight,
       aspectRatio : window.innerWidth / window.innerHeight
     }
-    camera = new THREE.PerspectiveCamera( 75, container.clientWidth / container.clientHeight, 1, 1000 );
+
+    camera = new THREE.PerspectiveCamera( 
+      75, 
+      container.clientWidth / container.clientHeight,
+      1, 
+      1000 
+    );
     camera.position.set(0,1, 5)
     scene.add( camera );
 
@@ -45,19 +43,20 @@ const Home: NextPage = () => {
       width : 2 * Math.tan((camera.fov * Math.PI) / 180 / 2) * 3 * viewport.aspectRatio,
     }
 
-    const axesHelper = new THREE.AxesHelper(5);
-    // scene.add( axesHelper );
     let group = new THREE.Object3D();
 
     init()
+
     function init(){
-      geometry = new THREE.BufferGeometry()
-      
+
+      const geometry = new THREE.BufferGeometry()
+      const vertices:any=[]
+
       for (let t = 0; t<30;t++){
-        const l = 2 + Math.sin(t*Math.PI/15) 
+        const radius = 2 + Math.sin(t*Math.PI/15) 
         for ( let i = 0; i < 80; i ++ ) {
-          const x = Math.cos(i * Math.PI/40) * l
-          const z = Math.sin(i * Math.PI/40) * l        
+          const x = Math.cos(i * Math.PI/40) * radius
+          const z = Math.sin(i * Math.PI/40) * radius        
           const y = Math.cos(t*Math.PI/15) 
           vertices.push( x, y, z )
         }
@@ -66,7 +65,7 @@ const Home: NextPage = () => {
         torus.push(toru)
       }
 
-      for (let t = 0; t<20;t++){
+      for (let t = 0; t<30;t++){
         group.add(torus[t])
       }
       scene.add(group)
@@ -75,79 +74,67 @@ const Home: NextPage = () => {
 
 
     function animate() {
-      requestAnimationFrame( animate );
-      controls.update()
-      renderer.render( scene, camera)
       const time = performance.now() * 0.001
 
-      for (let t = 0; t<30;t++){
-        const l = 1.2 + Math.sin(time + t*Math.PI/15) 
-        for ( let i = t*80; i < (t+1)*80; i ++ ) {
-          const x = Math.cos(i * Math.PI/40) * l
-          const z = Math.sin(i * Math.PI/40) * l        
-          const y = Math.cos(time + t*Math.PI/15)
-          torus[t].geometry.attributes.position.array[i*3] = x
-          torus[t].geometry.attributes.position.array[i*3+2] = z
-          torus[t].geometry.attributes.position.array[i*3+1] = y
-        }
-        
+      for (let t = 0; t < 30; t++ ){
+
+        const radius = 1.2 + Math.sin( time + t * Math.PI / 15) 
+
+        for ( let i = t * 80 ; i < ( t + 1 ) * 80; i ++ ) {
+          const x = Math.cos( i * Math.PI / 40) * radius
+          const z = Math.sin( i * Math.PI / 40) * radius        
+          const y = Math.cos( time + t * Math.PI / 15)
+          torus[t].geometry.attributes.position.array[ i * 3 ] = x
+          torus[t].geometry.attributes.position.array[ i * 3 + 1 ] = y
+          torus[t].geometry.attributes.position.array[ i * 3 + 2 ] = z
+        }        
         torus[t].geometry.attributes.position.needsUpdate = true
       }
-      group.rotation.x= time * 0.2
-      group.rotation.z= time * 0.2
-      // camera.position.y = Math.sin(time) * 5
-      // camera.position.x = Math.sin(time) * 5
+      group.rotation.x = time * 0.2
+      group.rotation.z = time * 0.2
+
+      controls.update()
+
+      requestAnimationFrame( animate );      
+      renderer.render( scene, camera)
     }
 
-    window.addEventListener( 'resize', onWindowResize )
-    function onWindowResize() {
+    window.addEventListener( 'resize', function() {
       const container_wrapper = document.getElementById('canvas-wrapper')
-      if (container_wrapper){          
-        const viewport = {
-          width : container.clientWidth, height : container.clientHeight,
-          aspectRatio : window.innerWidth / window.innerHeight
-        }
 
+      if (container_wrapper){
         camera.aspect = container_wrapper.clientWidth / container_wrapper.clientHeight;
         camera.updateProjectionMatrix()
 
-        const viewSize = {
-          distance : camera.position.z,
-          vFov : (camera.fov * Math.PI) / 180,
-          height : 2 * Math.tan((camera.fov * Math.PI) / 180 / 2) * camera.position.z,
-          width : 2 * Math.tan((camera.fov * Math.PI) / 180 / 2) * camera.position.z * viewport.aspectRatio,
-        }
         renderer.setSize( container_wrapper.clientWidth, container_wrapper.clientHeight );
       }
-    }
+    })
   }
 
   useEffect(() => {
     if(typeof document !== "undefined"){
-      if (webglFlag.flag === false){
-        
-          webglFlag.flag = true
-        setTimeout(()=>{
-          webGLRender()
-        },500)
-      }
+      webGLRender()
     }
   }, [])
 
   return (
     <div className='min-w-screen min-h-screen'>
+
       <Head>
         <title>Animation</title>
         <meta name="description" content="Generated by create next app" />
         <link rel="icon" href="/logo.png" />
       </Head>
       
-      <div id='canvas-wrapper'
+      <div 
+        id='canvas-wrapper'
         className='relative top-0 left-0 w-screen h-screen pointer-events-auto'
       >
-          <canvas id='webgl-canvas' className='w-screen h-screen'/>
-          
+
+        <canvas id='webgl-canvas' className='w-screen h-screen'/>
+
       </div>
+
     </div>
   )
 }
